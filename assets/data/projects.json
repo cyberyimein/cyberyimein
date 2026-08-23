@@ -179,35 +179,35 @@
 			"jp": "contents/projects/jp/anomalo.md"
 		},
 		"name": {
-			"zh-CN": "Anomalo",
-			"en-US": "Anomalo",
-			"ja-JP": "Anomalo"
+			"zh-CN": "AnomaloHaris",
+			"en-US": "AnomaloHaris",
+			"ja-JP": "AnomaloHaris"
 		},
 		"description": {
-			"zh-CN": "一个事件驱动的个人 AI Agent 工程实验室，将 Agent Harness、StackChan 实体机器人控制与可审计的股票研究整合在同一运行时中。",
-			"en-US": "An event-driven personal AI engineering lab combining an agent harness, StackChan robot control, and auditable stock research in one runtime.",
-			"ja-JP": "Agent Harness、StackChan ロボット制御、監査可能な株式リサーチを一つのランタイムに統合した、イベント駆動型の個人 AI エンジニアリングラボ。"
+			"zh-CN": "一个 Node.js/TypeScript Agent 运行时，将 Prompt、Preset Model、工具调用与可选插件集中为本地 AI 算力中心。",
+			"en-US": "A Node.js/TypeScript agent runtime that turns prompts, Preset Models, tool calls, and optional plugins into a local AI compute center.",
+			"ja-JP": "Prompt、Preset Model、ツール呼び出し、任意プラグインをローカル AI 計算センターへまとめる Node.js/TypeScript Agent ランタイム。"
 		},
-		"repo": "https://github.com/cyberyimein/Anomalo",
-		"url": "https://github.com/cyberyimein/Anomalo",
+		"repo": "https://github.com/cyberyimein/AnomaloHaris",
+		"url": "https://github.com/cyberyimein/AnomaloHaris",
 		"tags": [
 			{
-				"zh-CN": "Agent Harness",
-				"en-US": "Agent Harness",
-				"ja-JP": "Agent Harness"
+				"zh-CN": "Preset Model",
+				"en-US": "Preset Model",
+				"ja-JP": "Preset Model"
 			},
 			{
-				"zh-CN": "Embodied AI",
-				"en-US": "Embodied AI",
-				"ja-JP": "Embodied AI"
+				"zh-CN": "Node.js Runtime",
+				"en-US": "Node.js Runtime",
+				"ja-JP": "Node.js Runtime"
 			},
 			{
-				"zh-CN": "Stock Research",
-				"en-US": "Stock Research",
-				"ja-JP": "株式リサーチ"
+				"zh-CN": "Plugin Runtime",
+				"en-US": "Plugin Runtime",
+				"ja-JP": "プラグインランタイム"
 			}
 		],
-		"tech": ["FastAPI", "Vue 3", "OpenRouter", "MCP"],
+		"tech": ["Node.js", "TypeScript", "Fastify", "Vue 3", "SQLite", "OpenAI-compatible API"],
 		"featured": true,
 		"status": "active",
 		"createdAt": "2026-07-15"

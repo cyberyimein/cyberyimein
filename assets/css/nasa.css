@@ -1758,6 +1758,47 @@ header {
     min-height: 0;
 }
 
+/* Version updates stay on the original card: a paper layer and a small revision tab. */
+.roadmap-branch-node.is-updated {
+    isolation: isolate;
+    z-index: 2;
+    border-color: rgba(255, 60, 0, .5);
+    box-shadow: 4px 4px 0 var(--panel-deep), 8px 8px 0 rgba(255, 60, 0, .16);
+}
+
+.roadmap-branch-node.is-updated::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid rgba(255, 60, 0, .32);
+    background: var(--panel);
+    transform: translate(7px, 7px);
+}
+
+.roadmap-update-badge {
+    position: absolute;
+    top: -11px;
+    right: 10px;
+    z-index: 3;
+    padding: 4px 7px 3px;
+    border: 1px solid var(--orange);
+    background: var(--orange);
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: .7px;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 2px 2px 0 var(--panel-deep);
+}
+
+.roadmap-branch-node.is-updated:hover {
+    border-color: var(--orange);
+    box-shadow: 4px 4px 0 var(--panel-deep), 10px 10px 0 rgba(255, 60, 0, .18);
+}
+
 .roadmap-experiment-chain .roadmap-branch-node {
     flex: 1 1 0;
 }
@@ -1786,6 +1827,13 @@ header {
     font-size: 9.5px;
     line-height: 1.62;
     font-weight: 400;
+}
+
+.roadmap-capability-node p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
 }
 
 .roadmap-node-eyebrow {

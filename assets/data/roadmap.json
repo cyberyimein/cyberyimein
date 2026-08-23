@@ -71,14 +71,14 @@
                         "ja-JP": "Search & Fetch"
                     },
                     "eyebrow": {
-                        "zh-CN": "联网检索能力",
-                        "en-US": "Web retrieval",
-                        "ja-JP": "Web 検索能力"
+                        "zh-CN": "多后端联网检索",
+                        "en-US": "Multi-backend web retrieval",
+                        "ja-JP": "マルチバックエンド Web 検索"
                     },
                     "desc": {
-                        "zh-CN": "Search 发现候选来源，Fetch 读取指定资源；两个工具组合成 Agent 的联网检索能力。",
-                        "en-US": "Search discovers candidate sources and Fetch reads a selected resource; together they give the Agent a composable web-retrieval path.",
-                        "ja-JP": "Search が候補ソースを見つけ、Fetch が指定リソースを読む。二つを組み合わせて Agent の Web 検索経路にする。"
+                        "zh-CN": "自制 Search → Fetch；新增 OpenRouter、Bing Grounding 与 Responses API 检索后端。",
+                        "en-US": "Custom Search → Fetch; now adds OpenRouter, Bing Grounding, and Responses API retrieval backends.",
+                        "ja-JP": "自前の Search → Fetch に OpenRouter、Bing Grounding、Responses API の検索を追加。"
                     },
                     "status": {
                         "zh-CN": "INTEGRATED",
@@ -256,7 +256,14 @@
         {
             "id":"RM-E02",
             "type": "project",
-            "version": "v0.1",
+            "version": "v0.2",
+            "previousVersion": "v0.1",
+            "updated": true,
+            "updateLabel": {
+                "zh-CN": "已更新：Node-only 运行时",
+                "en-US": "Updated: Node-only runtime",
+                "ja-JP": "更新：Node-only ランタイム"
+            },
             "content": {
                 "cn": "contents/projects/cn/fruitspy.md",
                 "en": "contents/projects/en/fruitspy.md",
@@ -328,7 +335,14 @@
         {
             "id": "RM-E05",
             "type": "experiment",
-            "version": "v0.1",
+            "version": "v0.2",
+            "previousVersion": "v0.1",
+            "updated": true,
+            "updateLabel": {
+                "zh-CN": "更新",
+                "en-US": "UPDATED",
+                "ja-JP": "更新"
+            },
             "content": {
                 "cn": "contents/roadmap/cn/05_fetch_search.md",
                 "en": "contents/roadmap/en/05_fetch_search.md",
@@ -340,9 +354,9 @@
                 "ja-JP": "Search & Fetch"
             },
             "desc": {
-                "zh-CN": "按 Search → Fetch 的顺序发现候选来源并读取指定网页，让 Agent 获得可处理的 Markdown。",
-                "en-US": "Runs Search → Fetch in order: discover candidate sources, then read a selected page as Markdown for the Agent.",
-                "ja-JP": "Search → Fetch の順に候補ソースを見つけ、指定ページを Agent が扱える Markdown として読む。"
+                "zh-CN": "对照自制 Search → Fetch、OpenRouter 托管检索、Bing Grounding 适配与 Responses API 原生检索，让 Agent 按可控性、引用与证据追踪选择后端。",
+                "en-US": "Compares custom Search → Fetch, OpenRouter managed search, a separate Bing Grounding adapter, and Responses API native retrieval so the Agent can choose a backend by control, citations, and evidence traceability.",
+                "ja-JP": "自作の Search → Fetch、OpenRouter のマネージド検索、別系統の Bing Grounding アダプター、Responses API のネイティブ検索を比較し、制御性・引用・根拠追跡に応じて Agent がバックエンドを選べるようにする。"
             },
             "percent": 100,
             "status": "done"
@@ -482,23 +496,23 @@
                 "jp": "contents/projects/jp/anomalo.md"
             },
             "title": {
-                "zh-CN": "ANOMALO",
-                "en-US": "ANOMALO",
-                "ja-JP": "ANOMALO"
+                "zh-CN": "ANOMALOHARIS",
+                "en-US": "ANOMALOHARIS",
+                "ja-JP": "ANOMALOHARIS"
             },
             "desc": {
-                "zh-CN": "整合 Agent Harness、StackChan 实体交互与个人股票研究的事件驱动 AI 工程实验室。",
-                "en-US": "An event-driven AI engineering lab combining an agent harness, StackChan embodiment, and personal stock research.",
-                "ja-JP": "Agent Harness、StackChan の身体性、個人株式リサーチを統合するイベント駆動型 AI エンジニアリングラボ。"
+                "zh-CN": "以 Node.js/TypeScript 构建的本地 Agent 算力中心，通过 Preset Model 固定 Prompt、工具和插件组合。",
+                "en-US": "A Node.js/TypeScript local agent compute center that fixes prompt, tool, and plugin combinations through Preset Models.",
+                "ja-JP": "Preset Model によって Prompt、ツール、プラグインの組み合わせを固定する Node.js/TypeScript ローカル Agent 計算センター。"
             },
-            "percent": 60,
+            "percent": 80,
             "status": "progress",
             "currentFocus": {
-                "zh-CN": "把联网检索、容器沙箱执行与 RAG 验证收束为稳定的 Harness 能力。",
-                "en-US": "Turn web retrieval, container sandbox execution, and RAG validation into stable Harness capabilities.",
-                "ja-JP": "Web 検索、コンテナサンドボックス、RAG 検証を安定した Harness 能力へまとめる。"
+                "zh-CN": "完善真实 Provider 的工具调用验证、可选插件隔离与 Buddy 独立生命周期。",
+                "en-US": "Deepen real Provider tool-call validation, optional plugin isolation, and Buddy's independent lifecycle.",
+                "ja-JP": "実 Provider のツール呼び出し検証、任意プラグインの隔離、Buddy の独立ライフサイクルを強化する。"
             },
-            "github": "https://github.com/cyberyimein/Anomalo",
+            "github": "https://github.com/cyberyimein/AnomaloHaris",
             "featured": true
         },
         {

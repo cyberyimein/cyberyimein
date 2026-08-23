@@ -1,41 +1,41 @@
-# Anomalo: An Agent Harness, Physical Interface, and Stock Research in One Runtime
+# AnomaloHaris: Turning an Agent Runtime into a Local Compute Center
 
-Anomalo is my personal AI engineering laboratory. An event-driven FastAPI agent host and a Vue control panel bring agent-harness experiments, StackChan device control, and personal stock research into one observable runtime. The current version is v0.1 and remains in active development.
+AnomaloHaris, formerly Anomalo, is my personal AI engineering laboratory and a local AI compute center for other agent services. Instead of keeping the Python backend, device integrations, media stack, and domain modules in one process, it now focuses on a controlled, observable, and versioned Node.js/TypeScript agent runtime.
 
-## Background and goal
+## Why the project was redefined
 
-I use Anomalo as a long-running laboratory. New agent techniques reveal their boundaries, state transitions, and operational cost only when they are connected into a working system. The project covers streaming runtimes, tool calling, context assembly, prompt profiles, memory, skills, MCP, sandboxed execution, and human approval.
+The early Anomalo prototype combined the Agent Harness, StackChan, voice, vision, stock research, and a Python sandbox. That was useful for fast experiments, but the runtime boundary became unclear as more models and tools were added. A caller could not easily tell which prompt, model, tools, or state a request actually used.
 
-Another goal is to move an agent from the browser onto a desktop device. StackChan renders state, receives touch input, and transports audio, while the host owns model calls, tool execution, and authorization policy. Stock research provides a concrete domain boundary: a deterministic engine produces testable market evidence, while the agent explains and organizes the research process.
+AnomaloHaris now has a narrower question: how can model calls, context assembly, tool execution, Sessions, and event streaming become one local service while other agents select a capability with only a stable name and version?
 
-## Design and implementation
+## Current architecture
 
-The agent host uses FastAPI for REST and WebSocket interfaces. Each run assembles a model request from prompt profiles, optional `AGENTS.md` memory, skills, MCP server configuration, and session history. The client is OpenAI SDK-compatible and defaults to OpenRouter; without an API key, the application can use a deterministic mock mode.
+- **Node Host**: `apps/node-host` owns HTTP, the OpenAI-compatible API, WebSocket, AgentCore, RunController, Sessions, Providers, and the plugin runtime.
+- **Preset Models**: `name@version` is the only external capability unit. It fixes the prompt, Provider Model, credential reference, tool protocol, plugin graph, and runtime policy.
+- **Resource bundle**: `runtime-bundle` contains prompts, Skills, MCP/plugin configuration, deployment scripts, and the compiled frontend. It is not a second backend.
+- **Optional Buddy plugin**: the Buddy service and `buddy-bridge` run separately. Device control, Hook Relay, and approvals enter through a plugin boundary instead of the Node Host core.
+- **Frontend control panel**: the Vue UI exposes model identity, context, tool calls, web sources, errors, and Session state.
 
-The runtime emits typed lifecycle, message, model-request, tool-call, tool-result, and error events. The Vue control panel exposes this context for inspection. The Buddy bridge connects StackChan over serial or TCP and brings voice, touch, approval, and device state into the same event flow.
+The default Agent is also a Preset Model: `anomalo@1`. Callers may omit the model reference and use the configured default, or select a published version explicitly with `name@version`. Every entry point eventually uses the same AgentCore; there is no special Agent runtime outside the Registry.
 
-The stock module is separate from the agent. It combines market-data adapters, technical evidence, ranking, and reports into a deterministic analysis pipeline, using mock data or Futu OpenD. The Python tool is relayed by the separate FruitSpy service and, when configured, runs inside a disposable Apple container.
+## How a Run works
 
-## Current capabilities
+At the start of a Run, the Node Host freezes the static context snapshot: Prompt, Memory, `AGENTS.md`, the Skill catalog, and the MCP catalog. During tool execution it refreshes only resources and tools that are intentionally dynamic, so a Run cannot silently switch its system context after an external configuration change.
 
-- Streams agent lifecycle, message, and tool events over WebSocket or REST.
-- Loads prompt profiles, memory, Python skills, and MCP servers at runtime.
-- Provides one Vue control panel for chat, context inspection, Buddy state, and stock analysis.
-- Supports STT, TTS, local voice sessions, and a serial or TCP StackChan bridge.
-- Provides web search and Markdown fetch tools and records Web Activity for the current session.
-- Runs deterministic stock analysis with mock data or Futu OpenD.
-- Supports a separate Python sandbox service plus Apple Container image builds and remote deployment.
+Model requests, tool start and finish, web traces, errors, stop, and resume are normalized into shared typed events. Sessions store the Node runtime's message chain, Preset Model binding, and checkpoint. Old Python Session data is not migrated and is not a compatibility requirement for the new runtime.
 
-## Boundaries and tradeoffs
+## Current boundaries
 
-Anomalo is intended for personal use on a trusted network, not as a hardened multi-user service. MCP configurations, skills, remote services, and external tools are trusted code or trusted configuration; deployment must provide its own access control and credential handling.
+Web Search, Web Fetch, and host-core are core tools. Browser, MCP, and Buddy are optional plugins introduced behind explicit capability boundaries; an unavailable plugin is reported as degraded or unavailable instead of disappearing silently.
 
-StackChan handles physical presentation and input, while the host policy remains responsible for tool authorization and approvals. Stock reports are analytical software output, not investment advice, and agent explanations do not replace the underlying data or calculations.
+Audio, vision, camera, and heavyweight media processing are no longer built into AnomaloHaris. Stock research is no longer retained as a legacy Node Host module either. Domain agents can use AnomaloHaris compute through the OpenAI-compatible API or the native API.
 
-## Status and next step
+## Current status
 
-Anomalo is in active v0.1 development. The next step is to consolidate web retrieval, container sandboxing, and the separate RAG validation work into stable harness capabilities while keeping tool calls, judgments, and human approvals observable and explainable.
+The Node-only version is built and deployed to an Apple Container on the Mac mini. External services can use `/v1/chat/completions`; the local UI and scripts can use `/api/chat`, NDJSON, WebSocket, or the Native Run API. Preset Models, the tool catalog, health checks, and frontend assets have passed local and remote smoke tests.
+
+The next step is to deepen real Provider tool-call validation, plugin isolation, and Buddy's independent lifecycle while keeping the core Host small and stable.
 
 ## Technology stack
 
-FastAPI / Vue 3 / Vite / OpenRouter / MCP / Python 3.12 / WebSocket / Apple Container
+Node.js / TypeScript / Fastify / Vue 3 / SQLite / OpenRouter / OpenAI-compatible API / WebSocket / Apple Container

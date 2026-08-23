@@ -1,0 +1,186 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - img "CyberYimein" [ref=e5]:
+        - generic [ref=e6]: CYBERYIMEIN
+      - generic [ref=e7]: 创造 · 探索 · AI
+      - generic [ref=e8]:
+        - button "ZH" [ref=e9] [cursor=pointer]
+        - button "EN" [ref=e10] [cursor=pointer]
+        - button "JP" [ref=e11] [cursor=pointer]
+        - button "深色" [ref=e12] [cursor=pointer]
+      - generic [ref=e13]:
+        - generic [ref=e14]: "MISSION: CYBERYIMEIN-26"
+        - generic [ref=e15]: "STATUS: OPERATIONAL"
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]: AI AGENT ENGINEER · AI-NATIVE BUILDER
+        - heading "ALOHA" [level=1] [ref=e19]
+        - paragraph [ref=e20]: 我是 CyberYimein，一名 AI Agent 工程师。从 2025 年夏天开始，我转向 AI 原生的开发方式，与 AI Agent 协作，把想法变成产品。这里是我的个人空间，记录我在 AI 重塑行业的时代里，持续创造、探索与学习的过程。
+      - tablist "构建记录分类" [ref=e22]:
+        - tab "项目" [ref=e23] [cursor=pointer]
+        - tab "路线图" [selected] [ref=e25] [cursor=pointer]
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - heading "构建记录" [level=2] [ref=e29]
+        - generic [ref=e30]: "[REF-ID: BUILD-LOG]"
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - text: BR-01 / EVOLUTION TRACE
+            - heading "Agent Harness 演化分支" [level=3] [ref=e36]
+            - paragraph [ref=e37]: 不起眼的工具验证没有消失。联网、隔离执行、知识检索与环境感知先汇流为 Anomalo Harness；Urus 将它特化为股票研究 Agent，Meganeura 则沿企业受控执行与 Know-how 隔离继续演化。
+          - generic [ref=e38]:
+            - tablist "路线图视图" [ref=e39]:
+              - tab "随心所欲" [ref=e40] [cursor=pointer]
+              - tab "分支" [selected] [ref=e42] [cursor=pointer]
+            - generic [ref=e44]:
+              - button "上一条分支" [disabled] [ref=e45]: ←
+              - generic [ref=e46]: 01 / 01
+              - button "下一条分支" [disabled] [ref=e47]: →
+        - generic [ref=e48]:
+          - generic [ref=e49]:
+            - generic [ref=e50]: EXPERIMENT CHAIN / CAPABILITY CONTINUATION
+            - generic [ref=e51]:
+              - button [ref=e52] [cursor=pointer]:
+                - text: 早期小实验
+                - heading "花见 CLI" [level=4] [ref=e53]
+                - paragraph [ref=e54]: 验证本地 Agent 如何调用外部季节数据。它提供了联网能力的早期经验，但并不是 Search & Fetch 的简单实现。
+                - text: OPEN RECORD ↗
+              - generic [ref=e55]: EXPERIENCE
+              - button "容器沙箱执行 Python 沙箱 在隔离容器中执行 Python，把计算、代码运行与结果回传纳入 Harness。 INTEGRATED OPEN RECORD ↗" [ref=e58] [cursor=pointer]:
+                - text: 容器沙箱执行
+                - heading "Python 沙箱" [level=4] [ref=e59]
+                - paragraph [ref=e60]: 在隔离容器中执行 Python，把计算、代码运行与结果回传纳入 Harness。
+                - generic [ref=e61]: INTEGRATED
+                - text: OPEN RECORD ↗
+              - generic [ref=e62]: CAPABILITY
+              - button "多后端联网检索 Search & Fetch 自制 Search → Fetch；新增 OpenRouter、Bing Grounding 与 Responses API 检索后端。 INTEGRATED 更新 / v0.1 → v0.2 OPEN RECORD ↗" [ref=e65] [cursor=pointer]:
+                - text: 多后端联网检索
+                - heading "Search & Fetch" [level=4] [ref=e66]
+                - paragraph [ref=e67]: 自制 Search → Fetch；新增 OpenRouter、Bing Grounding 与 Responses API 检索后端。
+                - generic [ref=e68]: INTEGRATED
+                - generic "更新 / v0.1 → v0.2" [ref=e69]
+                - text: OPEN RECORD ↗
+              - generic [ref=e70]: CAPABILITY
+              - button "知识检索验证 RAG Database 验证知识写入、召回与上下文拼装，让 Harness 能利用可追溯的长期资料。 VALIDATED OPEN RECORD ↗" [ref=e73] [cursor=pointer]:
+                - text: 知识检索验证
+                - heading "RAG Database" [level=4] [ref=e74]
+                - paragraph [ref=e75]: 验证知识写入、召回与上下文拼装，让 Harness 能利用可追溯的长期资料。
+                - generic [ref=e76]: VALIDATED
+                - text: OPEN RECORD ↗
+              - generic [ref=e77]: CAPABILITY
+              - button "新 MCP 协议 Room Climate MCP 通过 FruitSpy 的 MCP Server，让 Agent 读取房间温度、湿度与二氧化碳浓度。 VALIDATED OPEN RECORD ↗" [ref=e80] [cursor=pointer]:
+                - text: 新 MCP 协议
+                - heading "Room Climate MCP" [level=4] [ref=e81]
+                - paragraph [ref=e82]: 通过 FruitSpy 的 MCP Server，让 Agent 读取房间温度、湿度与二氧化碳浓度。
+                - generic [ref=e83]: VALIDATED
+                - text: OPEN RECORD ↗
+            - generic [ref=e84]: EXPERIENCE CONTINUITY · NO CODE REUSE
+          - generic [ref=e85]: CONVERGE
+          - generic [ref=e88]:
+            - generic [ref=e89]: SYSTEM BASE / DOMAIN SPECIALIZATIONS
+            - generic [ref=e90]:
+              - button "能力汇流点 ANOMALO HARNESS 联网检索、沙箱工具、RAG 数据库与环境感知在事件驱动运行时中汇流，形成可继续扩展的 Agent Harness。 EVOLVING OPEN RECORD ↗" [ref=e91] [cursor=pointer]:
+                - text: 能力汇流点
+                - heading "ANOMALO HARNESS" [level=4] [ref=e92]
+                - paragraph [ref=e93]: 联网检索、沙箱工具、RAG 数据库与环境感知在事件驱动运行时中汇流，形成可继续扩展的 Agent Harness。
+                - generic [ref=e94]: EVOLVING
+                - text: OPEN RECORD ↗
+              - generic [ref=e95]: SPECIALIZE
+              - generic [ref=e98]:
+                - button "股票研究特化 Agent URUS 基于 Anomalo 的事件驱动 Harness，把市场与宏观数据、技术指标、期权结构、冻结证据和只读 Agent 工具编排成可复盘的美股研究工作流。 EVOLVING OPEN RECORD ↗" [ref=e99] [cursor=pointer]:
+                  - text: 股票研究特化 Agent
+                  - heading "URUS" [level=4] [ref=e100]
+                  - paragraph [ref=e101]: 基于 Anomalo 的事件驱动 Harness，把市场与宏观数据、技术指标、期权结构、冻结证据和只读 Agent 工具编排成可复盘的美股研究工作流。
+                  - generic [ref=e102]: EVOLVING
+                  - text: OPEN RECORD ↗
+                - button "企业受控执行 Harness MEGANEURA 基于 Anomalo 的 Harness 经验，分离外部 Interaction Agent 与内部 Execution Model，把业务 Know-how 留在本地 Vault，并通过受限 Capability API 委托执行。 M3 CLOSEOUT OPEN RECORD ↗" [ref=e103] [cursor=pointer]:
+                  - text: 企业受控执行 Harness
+                  - heading "MEGANEURA" [level=4] [ref=e104]
+                  - paragraph [ref=e105]: 基于 Anomalo 的 Harness 经验，分离外部 Interaction Agent 与内部 Execution Model，把业务 Know-how 留在本地 Vault，并通过受限 Capability API 委托执行。
+                  - generic [ref=e106]: M3 CLOSEOUT
+                  - text: OPEN RECORD ↗
+        - generic [ref=e107]:
+          - generic [ref=e108]: CAPABILITY MERGE
+          - generic [ref=e110]: DOMAIN SPECIALIZATION
+          - generic [ref=e112]: EXPERIENCE CONTINUITY, NOT CODE REUSE
+    - generic [ref=e114]:
+      - generic [ref=e115]:
+        - heading "资格徽章" [level=2] [ref=e116]
+        - generic [ref=e117]: "[REF-ID: BADGE-DB]"
+      - generic [ref=e119]:
+        - generic [ref=e120]: 技能栈
+        - generic [ref=e121]:
+          - generic "TypeScript" [ref=e122] [cursor=pointer]:
+            - img [ref=e124]:
+              - generic [ref=e126]: TS
+          - generic "Python" [ref=e128] [cursor=pointer]:
+            - img [ref=e130]:
+              - generic [ref=e132]: Py
+          - generic "NLP" [ref=e134] [cursor=pointer]
+          - generic "LLM" [ref=e140] [cursor=pointer]
+          - generic "AI Agent" [ref=e146] [cursor=pointer]
+          - generic "Agentic Coding" [ref=e153] [cursor=pointer]:
+            - img [ref=e155]:
+              - generic [ref=e157]: Agentic
+              - generic [ref=e158]: Coding
+        - generic [ref=e160]: 认证
+        - generic [ref=e161]:
+          - generic "Java Silver" [ref=e162] [cursor=pointer]
+          - generic "Azure Fundamentals (AZ-900)" [ref=e168] [cursor=pointer]
+          - generic "Azure AI Engineer (AI-102)" [ref=e174] [cursor=pointer]
+          - generic "Azure AI Apps and Agents Developer Associate (AI-103)" [ref=e180] [cursor=pointer]
+    - generic [ref=e187]:
+      - generic [ref=e188]:
+        - heading "联系我" [level=2] [ref=e189]
+        - generic [ref=e190]: "[REF-ID: COMMS-LK]"
+      - paragraph [ref=e192]:
+        - strong [ref=e193]: 邮件
+        - text: ":"
+        - link "cyberyimein[at]outlook.com" [ref=e194] [cursor=pointer]:
+          - /url: mailto:cyberyimein@outlook.com
+        - text: "|"
+        - strong [ref=e195]: GitHub
+        - text: ":"
+        - link "@cyberyimein" [ref=e196] [cursor=pointer]:
+          - /url: https://github.com/cyberyimein
+        - text: "|"
+        - strong [ref=e197]: 更多
+        - text: ": 更多方式即将补充……"
+    - contentinfo [ref=e198]:
+      - paragraph [ref=e199]: © 2026 Magnus Wong · 构建. 版权所有.
+  - button "返回顶部": ▲
+  - generic:
+    - generic:
+      - button "CLOSE [X]": ×
+      - generic:
+        - generic:
+          - generic:
+            - img "CyberYimein":
+              - generic: CYBERYIMEIN
+          - generic: CyberYimein · Bug Manufacturing Unit Tokyo, Japan
+        - generic: OFFICIAL RECORD
+      - generic:
+        - link "→":
+          - /url: "#"
+  - generic:
+    - generic:
+      - generic:
+        - button "CLOSE [X]"
+      - generic:
+        - generic:
+          - img "CyberYimein":
+            - generic: CYBERYIMEIN
+        - generic: PROJECTS
+      - generic: CyberYimein · Bug Manufacturing Unit Unpaid Prompt Engineering Lab Tokyo, Japan
+      - generic:
+        - generic: CyberYimein · Bug Manufacturing Unit
+        - generic:
+          - generic: Vibe Room Floor 4, Tokyo, Japan
+          - generic: FOR RELEASE
+        - generic: 2026年8月18日
+      - generic:
+        - generic: CyberYimein
+        - generic: AI Agent EngineerBug Manufacturing Unit
+      - generic: "-END-"

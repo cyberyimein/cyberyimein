@@ -1,5 +1,5 @@
 (function () {
-    const FILE = './assets/data/roadmap.json?v=20260818-harness-branches-2';
+    const FILE = './assets/data/roadmap.json?v=20260818-search-fetch-update-2';
     const state = {
         data: null,
         lang: 'zh-CN',
@@ -457,6 +457,18 @@
             const item = findItem(data.itemId);
             if (item) {
                 node.classList.add('is-clickable');
+                if (item.updated) {
+                    node.classList.add('is-updated');
+                    const updateBadge = createElement(
+                        'span',
+                        'roadmap-update-badge',
+                        (resolveLang(item.updateLabel) || ui('roadmap.card.updated', 'UPDATED'))
+                        + ' / ' + (item.previousVersion || '—')
+                        + ' → ' + (item.version || '—')
+                    );
+                    updateBadge.setAttribute('aria-label', updateBadge.textContent);
+                    node.appendChild(updateBadge);
+                }
                 node.setAttribute('role', 'button');
                 node.tabIndex = 0;
                 node.addEventListener('click', () => openArchiveDoc(item));

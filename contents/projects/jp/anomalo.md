@@ -1,41 +1,41 @@
-# Anomalo：Agent Harness、実体インターフェース、株式リサーチを一つのランタイムで検証する
+# AnomaloHaris：Agent ランタイムをローカル計算センターにする
 
-Anomalo は、私の個人 AI エンジニアリングラボである。イベント駆動型の FastAPI Agent Host と Vue コントロールパネルを使い、Agent Harness の実験、StackChan デバイス制御、個人株式リサーチを一つの観測可能なランタイムにまとめている。現在のバージョンは v0.1 で、開発中である。
+AnomaloHaris（旧 Anomalo）は、私の個人 AI エンジニアリングラボであり、他の Agent サービスから直接利用できるローカル AI 計算センターでもある。Python バックエンド、デバイス連携、メディア処理、ドメインモジュールを一つのプロセスに集約するのではなく、制御可能で観測可能、かつバージョン管理された Node.js/TypeScript Agent ランタイムに集中している。
 
-## 背景と目標
+## なぜ再定義したのか
 
-Anomalo は長期的な実験場として使っている。新しい Agent 技術は、動くシステムとして接続して初めて、境界、状態遷移、運用コストが見えてくる。対象はストリーミングランタイム、Tool Calling、コンテキスト構築、Prompt Profile、Memory、Skills、MCP、サンドボックス実行、人間による承認である。
+初期の Anomalo は、Agent Harness、StackChan、音声、ビジョン、株式リサーチ、Python サンドボックスを一つのプロトタイプにまとめていた。高速な検証には適していたが、モデルとツールが増えるにつれて実行境界が不明確になった。呼び出し側からは、実際にどの Prompt、モデル、ツール、状態が使われたのかを確認しにくかった。
 
-もう一つの目標は、Agent をブラウザからデスク上のデバイスへ移すことだ。StackChan は状態表示、タッチ入力、音声転送を担当し、ホストはモデル呼び出し、ツール実行、認可ポリシーを担当する。株式リサーチは具体的な業務境界になる。決定論的なエンジンが検証可能な市場証拠を作り、Agent は調査過程の説明と整理を担当する。
+AnomaloHaris が現在取り組む問題はより明確である。モデル呼び出し、コンテキスト構築、ツール実行、Session、イベントストリーミングを一つのローカルサービスに集約し、他の Agent からは安定した名前とバージョンだけで能力を選べるようにする。
 
-## 設計と実装
+## 現在のアーキテクチャ
 
-Agent Host は FastAPI で REST と WebSocket のインターフェースを提供する。各実行では、Prompt Profile、任意の `AGENTS.md` Memory、Skills、MCP Server 設定、セッション履歴からモデルリクエストを組み立てる。クライアントは OpenAI SDK 互換で、既定では OpenRouter を使う。API key がなければ決定論的な Mock モードを使える。
+- **Node Host**：`apps/node-host` が HTTP、OpenAI 互換 API、WebSocket、AgentCore、RunController、Session、Provider、プラグインランタイムを所有する。
+- **Preset Model**：`name@version` が外部向けの唯一の能力単位である。Prompt、Provider Model、認証情報参照、ツールプロトコル、プラグイングラフ、実行ポリシーを固定する。
+- **Resource bundle**：`runtime-bundle` は Prompt、Skill、MCP/プラグイン設定、デプロイスクリプト、コンパイル済みフロントエンドを保持する。第二のバックエンドではない。
+- **任意の Buddy プラグイン**：Buddy service と `buddy-bridge` は分離して動作する。デバイス制御、Hook Relay、承認はプラグイン境界から接続し、Node Host のコアには組み込まない。
+- **フロントエンド**：Vue UI でモデルの識別情報、コンテキスト、ツール呼び出し、Web ソース、エラー、Session 状態を確認できる。
 
-ランタイムは、ライフサイクル、メッセージ、モデルリクエスト、ツール呼び出し、ツール結果、エラーを型付きイベントとして出力する。Vue コントロールパネルからこのコンテキストを確認できる。Buddy Bridge は StackChan とシリアルまたは TCP で接続し、音声、タッチ、承認、デバイス状態を同じイベントフローに取り込む。
+デフォルト Agent も Preset Model の一つであり、`anomalo@1` として提供する。呼び出し側はモデル参照を省略して既定版を使うことも、`name@version` で公開済みの版を明示することもできる。すべての入口は同じ AgentCore を使い、Registry の外側に特別な Agent runtime は存在しない。
 
-株式モジュールは Agent から分離している。市場データアダプター、テクニカル証拠、ランキング、レポートを組み合わせ、Mock または Futu OpenD のデータから決定論的な分析を行う。Python ツールは別の FruitSpy サービスへ中継し、設定が整っている場合は一時的な Apple Container 内で実行する。
+## Run の流れ
 
-## 現在の機能
+Run の開始時に、Node Host は Prompt、Memory、`AGENTS.md`、Skill catalog、MCP catalog から静的コンテキストのスナップショットを作る。ツール実行中は意図的に動的なリソースとツールだけを更新するため、外部設定の変更によって同じ Run の system context が途中で変わることはない。
 
-- WebSocket または REST で Agent のライフサイクル、メッセージ、ツールイベントをストリーミングする。
-- Prompt Profile、Memory、Python Skills、MCP Server を実行時に読み込む。
-- チャット、コンテキスト確認、Buddy 状態、株式分析を一つの Vue コントロールパネルで扱う。
-- STT、TTS、ローカル音声セッション、シリアルまたは TCP の StackChan ブリッジに対応する。
-- Web 検索と Markdown 取得を提供し、現在のセッションの Web Activity を記録する。
-- Mock または Futu OpenD のデータで決定論的な株式分析を実行する。
-- 独立した Python サンドボックスサービスと、Apple Container のイメージ構築・リモートデプロイに対応する。
+モデルリクエスト、ツールの開始・終了、Web trace、エラー、停止、再開は共有された型付きイベントへ正規化される。Session には Node ランタイムのメッセージチェーン、Preset Model の binding、checkpoint を保存する。旧 Python Session データは移行せず、新ランタイムの互換条件にも含めない。
 
-## 境界とトレードオフ
+## 現在の境界
 
-Anomalo は信頼できるネットワーク上での個人利用を想定しており、堅牢化されたマルチユーザーサービスではない。MCP 設定、Skills、リモートサービス、外部ツールは信頼済みコードまたは信頼済み設定として扱うため、アクセス制御と認証情報の管理はデプロイ側の責任である。
+Web Search、Web Fetch、host-core はコアツールである。Browser、MCP、Buddy は明示的な能力境界を持つ任意プラグインとして追加する。利用できないプラグインは黙って消すのではなく、degraded または unavailable として表示する。
 
-StackChan は実体の表示と入力を担当し、ツールの認可と承認はホストのポリシーが担う。株式レポートは分析ソフトウェアの出力であり、投資助言ではない。Agent の説明も、元のデータや計算を置き換えるものではない。
+音声、ビジョン、カメラ、重量級メディア処理は AnomaloHaris に内蔵しない。株式リサーチも Node Host の旧モジュールとして残さず、必要なドメイン Agent が OpenAI 互換 API または Native API 経由で AnomaloHaris の計算能力を利用する。
 
-## 状態と次のステップ
+## 現在の状態
 
-Anomalo は v0.1 の開発中である。次は、Web 検索、コンテナサンドボックス、独立した RAG 検証を安定した Harness 機能へまとめ、ツール呼び出し、判断、人間による承認を観測可能かつ説明可能な状態に保つことである。
+Node-only 版はビルドされ、Mac mini の Apple Container にデプロイされている。外部サービスは `/v1/chat/completions` を利用でき、ローカル UI とスクリプトは `/api/chat`、NDJSON、WebSocket、Native Run API を利用できる。Preset Model、ツールカタログ、ヘルスチェック、フロントエンド静的ファイルはローカルとリモートの smoke test を通過している。
+
+次は、実 Provider のツール呼び出し検証、プラグイン隔離、Buddy の独立ライフサイクルを強化しつつ、コア Host を小さく安定させる。
 
 ## 技術スタック
 
-FastAPI / Vue 3 / Vite / OpenRouter / MCP / Python 3.12 / WebSocket / Apple Container
+Node.js / TypeScript / Fastify / Vue 3 / SQLite / OpenRouter / OpenAI 互換 API / WebSocket / Apple Container

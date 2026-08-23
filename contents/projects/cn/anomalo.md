@@ -1,41 +1,41 @@
-# Anomalo：在一个运行时里验证 Agent Harness、实体交互与股票研究
+# AnomaloHaris：把 Agent 运行时做成本地算力中心
 
-Anomalo 是我的个人 AI 工程实验室。它用事件驱动的 FastAPI Agent Host 和 Vue 控制面板，把 Agent Harness 实验、StackChan 设备控制与个人股票研究放进同一个可观察的运行时。当前版本是 v0.1，仍处于活跃开发阶段。
+AnomaloHaris（原 Anomalo）是我的个人 AI 工程实验室，也是其他本地 Agent 服务可以直接调用的 AI 算力中心。它不再把 Python 后端、设备能力和业务模块堆在同一个进程里，而是用 Node.js/TypeScript 构建一个受控、可观察、可版本化的 Agent 运行时。
 
-## 背景与目标
+## 为什么重新定义
 
-我把 Anomalo 用作一个长期实验场：新出现的 Agent 技术只有连接成可运行的系统，才能看清它们的边界、状态流转和运维成本。项目关注流式运行时、Tool Calling、上下文组装、Prompt Profile、Memory、Skills、MCP、沙箱执行和人工审批。
+早期 Anomalo 同时承载 Agent Harness、StackChan、语音、视觉、股票研究和 Python 沙箱。这样的原型适合快速验证，但随着工具和模型增多，运行时边界变得模糊：调用者很难知道一次请求实际使用了什么 Prompt、模型、工具和状态。
 
-另一个目标是把 Agent 从浏览器带到桌面设备。StackChan 负责显示状态、接收触摸和传输音频，主机负责模型调用、工具执行与授权策略。股票研究则提供一个具体的业务边界：分析引擎产生可测试的市场证据，Agent 负责解释和整理研究过程。
+现在 AnomaloHaris 的核心问题更明确：如何把模型调用、上下文组装、工具执行、Session 和事件流集中成一个本地服务，同时让外部 Agent 只需要一个稳定的模型名称和版本号。
 
-## 设计与实现
+## 当前架构
 
-Agent Host 以 FastAPI 提供 REST 和 WebSocket 接口，运行时从 Prompt Profile、可选的 `AGENTS.md` Memory、Skills、MCP Server 配置和会话历史组装模型请求。客户端兼容 OpenAI SDK，默认使用 OpenRouter；没有 API key 时可以使用确定性的 Mock 模式。
+- **Node Host**：`apps/node-host` 负责 HTTP、OpenAI-compatible API、WebSocket、AgentCore、RunController、Session、Provider 和插件运行时。
+- **Preset Model**：`name@version` 是对外的唯一能力单位。它固定 Prompt、Provider Model、凭据引用、工具协议、插件图和运行策略。
+- **资源包**：`runtime-bundle` 保存 Prompt、Skill、MCP/插件配置、部署脚本和编译后的前端静态文件，不再是一个独立后端。
+- **可选 Buddy 插件**：Buddy service 与 `buddy-bridge` 分开运行。设备控制、Hook Relay 和审批通过插件接入，不进入 Node Host 核心。
+- **前端控制面板**：Vue UI 显示模型身份、上下文、工具调用、Web 来源、错误和 Session 状态。
 
-运行时发出带类型的生命周期、消息、模型请求、工具调用、工具结果和错误事件，Vue 控制面板可以检查这些上下文。Buddy Bridge 通过串口或 TCP 连接 StackChan，并把语音、触摸、审批和设备状态接入同一套事件流。
+默认 Agent 也是一个 Preset Model：`anomalo@1`。调用者可以省略模型引用使用默认版本，也可以通过 `name@version` 精确选择一个已发布版本。不同入口最终都进入同一个 AgentCore，不再存在 Registry 之外的特殊 Agent runtime。
 
-股票模块与 Agent 解耦。它使用行情适配器、技术证据、排名和报告组成确定性的分析流程；数据可以来自 Mock 或 Futu OpenD。Python 工具则由独立的 FruitSpy 服务转发，在配置完成后交给一次性的 Apple Container 执行。
+## 一次 Run 如何工作
 
-## 当前能力
+Run 开始时，Node Host 冻结 Prompt、Memory、`AGENTS.md`、Skill catalog 和 MCP catalog 的静态上下文快照。工具执行期间只刷新原本动态的资源和工具列表，因此一次 Run 不会因为外部修改配置而突然更换 system context。
 
-- 通过 WebSocket 或 REST 流式输出 Agent 生命周期、消息与工具事件。
-- 在运行时加载 Prompt Profile、Memory、Python Skills 和 MCP Server。
-- 在一个 Vue 控制面板中查看聊天、上下文、Buddy 状态和股票分析。
-- 支持 STT、TTS、本地语音会话以及 StackChan 串口或 TCP 桥接。
-- 提供联网搜索与 Markdown 抓取工具，并记录当前会话的 Web Activity。
-- 使用 Mock 或 Futu OpenD 数据执行确定性的股票分析。
-- 支持独立 Python 沙箱服务，以及 Apple Container 镜像构建和远程部署。
+模型请求、工具开始与结束、Web trace、错误、停止和恢复都会转换成共享的类型化事件。Session 保存的是 Node 运行时自己的消息链、Preset Model 绑定和 checkpoint；旧 Python Session 数据不再迁移，也不是新运行时的兼容负担。
 
-## 边界与取舍
+## 当前边界
 
-Anomalo 面向可信网络中的个人使用，当前没有加固为多用户服务。MCP 配置、Skills、远程服务和外部工具都属于可信代码或可信配置，部署时必须自行管理访问控制与凭据。
+Web Search、Web Fetch 和 host-core 是核心工具。Browser、MCP 和 Buddy 作为可选插件逐步接入；插件不可用时必须明确显示 degraded 或 unavailable。
 
-StackChan 只负责实体表现和输入，最终的工具授权与审批仍由主机策略决定。股票模块输出的是分析软件结果，不是投资建议；Agent 的解释也不替代底层市场数据与计算证据。
+音频、视觉、摄像头和重量级媒体处理不再内置在 AnomaloHaris。股票研究也不再作为 Node Host 的遗留模块保留，领域 Agent 可以通过 OpenAI-compatible API 或 Native API 使用 AnomaloHaris 的模型算力。
 
-## 状态与下一步
+## 当前状态
 
-Anomalo 当前处于 v0.1 活跃开发阶段。下一步是把联网检索、容器沙箱和独立 RAG 验证逐步收束为稳定的 Harness 能力，同时继续保持工具调用、判断和人工批准可观察、可解释。
+Node-only 版本已经构建并部署到 Mac mini 的 Apple Container。外部服务可以使用 `/v1/chat/completions`，本地 UI 和脚本可以使用 `/api/chat`、NDJSON、WebSocket 或 Native Run API。Preset Model、工具目录、健康检查和前端静态资源均已通过本地与远端 smoke test。
+
+下一步是继续完善真实 Provider 的工具调用验证、可选插件的隔离和 Buddy 的独立生命周期，同时保持核心 Host 小而稳定。
 
 ## 技术栈
 
-FastAPI / Vue 3 / Vite / OpenRouter / MCP / Python 3.12 / WebSocket / Apple Container
+Node.js / TypeScript / Fastify / Vue 3 / SQLite / OpenRouter / OpenAI-compatible API / WebSocket / Apple Container
